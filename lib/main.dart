@@ -49,10 +49,6 @@ class _SplashState extends State<Splash> {
                 ),
               ),
             ),
-            Text(
-              "Kaskeli Mart",
-              style: TextStyle(fontSize: 25),
-            ),
           ],
         ),
       ),
