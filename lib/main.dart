@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:kaskelimart/home.dart';
 
 import 'package:kaskelimart/signup.dart';
 
@@ -26,7 +27,7 @@ class _SplashState extends State<Splash> {
     super.initState();
     Timer(Duration(seconds: 4), () {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => Signup()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
     });
   }
 

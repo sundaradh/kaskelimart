@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kaskelimart/productenter.dart';
+
+import 'package:kaskelimart/productview.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -8,6 +11,44 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Widget product() {
+    return Padding(
+      padding: EdgeInsets.all(40),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Productenter()));
+        },
+        child: Card(
+          // color: Colors.red,
+          child: Column(
+            children: [
+              Image(
+                  image: NetworkImage(
+                      'https://static.remove.bg/remove-bg-web/2e3a8aa57bcd08605c78f95f1c4bd007b07a5100/assets/start_remove-79a4598a05a77ca999df1dcb434160994b6fde2c3e9101984fb1be0f16d0a74e.png')),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    'name',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
+                  Text(
+                    'price',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,8 +56,19 @@ class _HomeState extends State<Home> {
         title: Text("Home"),
       ),
       drawer: Maindrawer(),
-      body: Center(
-        child: Text('Home'),
+      body: SingleChildScrollView(
+        child: Column(children: [
+          product(),
+          product(),
+          product(),
+          product(),
+          product(),
+          product(),
+          product(),
+          product(),
+          product(),
+          product(),
+        ]),
       ),
     );
   }
