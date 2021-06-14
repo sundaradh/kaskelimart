@@ -248,7 +248,7 @@ class _ProductenterState extends State<Productenter> {
 
     http.post(Uri.parse(api), body: {
       "image": base64Image,
-      "name": fileName,
+      "image_name": fileName,
       "id": _id.text,
     }).then((res) {
       print(res.statusCode);
