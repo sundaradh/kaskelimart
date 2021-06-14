@@ -4,9 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:kaskelimart/adminhome.dart';
-import 'package:kaskelimart/home.dart';
 import 'package:kaskelimart/login.dart';
-import 'package:kaskelimart/signup.dart';
 
 class Loginadmin extends StatefulWidget {
   const Loginadmin({Key? key}) : super(key: key);
@@ -35,7 +33,10 @@ class _LoginadminState extends State<Loginadmin> {
               children: [
                 CircleAvatar(
                   radius: 50,
-                  child: Icon(Icons.account_circle_outlined),
+                  child: Image.asset(
+                    "images/logo.jpg",
+                    fit: BoxFit.fill,
+                  ),
                 ),
                 SizedBox(
                   height: 15,

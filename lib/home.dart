@@ -1,7 +1,7 @@
+import 'package:carousel_images/carousel_images.dart';
 import 'package:flutter/material.dart';
+import 'package:kaskelimart/login.dart';
 import 'package:kaskelimart/productenter.dart';
-
-import 'package:kaskelimart/productview.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -11,13 +11,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final List<String> listImages = [
+    'https://cdn.flixbus.de/2018-01/munich-header-d8_0.jpg',
+    'https://cdn.flixbus.de/2018-01/munich-header-d8_0.jpg',
+  ];
   Widget product() {
     return Padding(
       padding: EdgeInsets.all(40),
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Productenter()));
+              context, MaterialPageRoute(builder: (context) => Login()));
         },
         child: Card(
           // color: Colors.red,
@@ -49,6 +53,50 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget category(Icon icon, String name) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(20),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => Login()));
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.lightBlueAccent,
+                  blurRadius: 5.0, // soften the shadow
+                  spreadRadius: 1.0, //extend the shadow
+                )
+              ],
+            ),
+            height: 80,
+            width: 80,
+            child: Card(
+              child: Center(
+                child: Row(
+                  children: [
+                    Column(
+                      children: [
+                        icon,
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(name)
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,18 +105,58 @@ class _HomeState extends State<Home> {
       ),
       drawer: Maindrawer(),
       body: SingleChildScrollView(
-        child: Column(children: [
-          product(),
-          product(),
-          product(),
-          product(),
-          product(),
-          product(),
-          product(),
-          product(),
-          product(),
-          product(),
-        ]),
+        child: Column(
+          children: [
+            Form(
+              child: Padding(
+                padding:
+                    EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.search),
+                    hintText: 'Search',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+                height: 150.0,
+                width: 300.0,
+                child: CarouselImages(
+                  scaleFactor: 0.6,
+                  listImages: listImages,
+                  height: 300.0,
+                  borderRadius: 30.0,
+                  cachedNetworkImage: true,
+                  verticalAlignment: Alignment.topCenter,
+                )),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Category',
+              style: TextStyle(fontSize: 25.0),
+            ),
+            Container(
+                height: 140,
+                child: Container(
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            category(Icon(Icons.food_bank), 'food'),
+                            category(Icon(Icons.computer), 'Computer'),
+                            category(Icon(Icons.phone), 'Mobile'),
+                            category(Icon(Icons.food_bank), 'food'),
+                            category(Icon(Icons.computer), 'Computer'),
+                            category(Icon(Icons.phone), 'Mobile'),
+                          ],
+                        )))),
+          ],
+        ),
       ),
     );
   }
