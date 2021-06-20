@@ -254,6 +254,5 @@ class _ProductenterState extends State<Productenter> {
     }).catchError((err) {
       print(err);
     });
-    print("Sucessful");
   }
 }

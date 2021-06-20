@@ -108,7 +108,6 @@ class _HomeState extends State<Home> {
           children: [
             Form(
               child: Container(
-                height: 10.0,
                 child: Padding(
                   padding:
                       EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15),
