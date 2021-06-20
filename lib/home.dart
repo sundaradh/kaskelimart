@@ -108,7 +108,6 @@ class _HomeState extends State<Home> {
           children: [
             Form(
               child: Container(
-                height: 10.0,
                 child: Padding(
                   padding:
                       EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15),
@@ -160,6 +159,32 @@ class _HomeState extends State<Home> {
             product()
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.blue,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Business',
+            backgroundColor: Colors.green,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'School',
+            backgroundColor: Colors.purple,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+            backgroundColor: Colors.pink,
+          ),
+        ],
+        selectedItemColor: Colors.amber[800],
+        onTap: null,
       ),
     );
   }
