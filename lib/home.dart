@@ -53,39 +53,41 @@ class _HomeState extends State<Home> {
 
   Widget category(Icon icon, String name) {
     return Center(
-      child: Padding(
-        padding: EdgeInsets.all(20),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Login()));
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.lightBlueAccent,
-                  blurRadius: 5.0, // soften the shadow
-                  spreadRadius: 1.0, //extend the shadow
-                )
-              ],
-            ),
-            height: 80,
-            width: 80,
-            child: Card(
-              child: Center(
-                child: Row(
-                  children: [
-                    Column(
-                      children: [
-                        icon,
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(name)
-                      ],
-                    )
-                  ],
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Login()));
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.lightBlueAccent,
+                    blurRadius: 5.0, // soften the shadow
+                    spreadRadius: 1.0, //extend the shadow
+                  )
+                ],
+              ),
+              height: 80,
+              width: 80,
+              child: Card(
+                child: Center(
+                  child: Row(
+                    children: [
+                      Column(
+                        children: [
+                          icon,
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(name)
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -192,6 +194,8 @@ class _HomeState extends State<Home> {
   Widget createGridView(List data, BuildContext context) {
     return SingleChildScrollView(
       child: GridView.builder(
+          scrollDirection: Axis.vertical,
+          physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 250,
