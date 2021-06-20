@@ -185,7 +185,6 @@ class _ProductenterState extends State<Productenter> {
                       if (_fromKey.currentState!.validate()) {
                         registerproduct();
                         uploadimage();
-                        print("Sucessful");
                       } else {
                         print("Unsucessful");
                       }
@@ -255,5 +254,6 @@ class _ProductenterState extends State<Productenter> {
     }).catchError((err) {
       print(err);
     });
+    print("Sucessful");
   }
 }

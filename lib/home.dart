@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:carousel_images/carousel_images.dart';
 import 'package:flutter/material.dart';
 import 'package:kaskelimart/login.dart';
-import 'package:kaskelimart/productenter.dart';
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -17,40 +19,36 @@ class _HomeState extends State<Home> {
   ];
   Widget product() {
     return Padding(
-      padding: EdgeInsets.all(40),
+      padding: EdgeInsets.all(5),
       child: InkWell(
         onTap: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Login()));
         },
-        child: Card(
-          // color: Colors.red,
-          child: Column(
-            children: [
-              Image(
-                  image: NetworkImage(
-                      'https://static.remove.bg/remove-bg-web/2e3a8aa57bcd08605c78f95f1c4bd007b07a5100/assets/start_remove-79a4598a05a77ca999df1dcb434160994b6fde2c3e9101984fb1be0f16d0a74e.png')),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    'name',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                  ),
-                  Text(
-                    'price',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
+        child: FutureBuilder(
+            future: getProduct(),
+            builder: (context, AsyncSnapshot<dynamic> snapshot) {
+              if (snapshot.hasData) {
+                return createGridView(snapshot.data, context);
+              }
+              return CircularProgressIndicator();
+            }),
       ),
     );
+  }
+
+  Future<List> getProduct() async {
+    var response = await http
+        .get(Uri.parse('https://kaskelimart.company/api/product.php'));
+    var data = jsonDecode(response.body);
+    print(data);
+    return data;
+  }
+
+  @override
+  void initState() {
+    getProduct();
+    super.initState();
   }
 
   Widget category(Icon icon, String name) {
@@ -99,6 +97,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    getProduct();
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
@@ -108,15 +107,18 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             Form(
-              child: Padding(
-                padding:
-                    EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    suffixIcon: Icon(Icons.search),
-                    hintText: 'Search',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(40.0)),
+              child: Container(
+                height: 10.0,
+                child: Padding(
+                  padding:
+                      EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(Icons.search),
+                      hintText: 'Search',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                      ),
                     ),
                   ),
                 ),
@@ -155,9 +157,57 @@ class _HomeState extends State<Home> {
                             category(Icon(Icons.phone), 'Mobile'),
                           ],
                         )))),
+            product()
           ],
         ),
       ),
+    );
+  }
+
+  Widget createGridView(List data, BuildContext context) {
+    return SingleChildScrollView(
+      child: GridView.builder(
+          shrinkWrap: true,
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 250,
+              crossAxisSpacing: 0.5,
+              mainAxisSpacing: 10),
+          itemCount: data.length,
+          itemBuilder: (BuildContext context, index) {
+            return Card(
+              // color: Colors.red,
+              child: Column(
+                children: [
+                  Image(
+                    height: 100.0,
+                    width: 100.00,
+                    image: NetworkImage(
+                        "https://kaskelimart.company/api/image/" +
+                            data[index]['image_name']),
+                    fit: BoxFit.fill,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        data[index]['Pro_name'],
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25),
+                      ),
+                      Text(
+                        "Rs:" + data[index]['price'],
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            );
+          }),
     );
   }
 }
