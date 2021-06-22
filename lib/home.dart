@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Login()));
+              context, MaterialPageRoute(builder: (context) => Productview()));
         },
         child: FutureBuilder(
             future: getProduct(),
@@ -229,7 +229,6 @@ class _HomeState extends State<Home> {
                         "Rs:" + data[index]['price'],
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15),
-                        overflow: TextOverflow.fade,
                       ),
                     ],
                   )
@@ -346,6 +345,65 @@ class _MaindrawerState extends State<Maindrawer> {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class Productview extends StatefulWidget {
+  Productview({Key? key}) : super(key: key);
+
+  @override
+  _ProductviewState createState() => _ProductviewState();
+}
+
+class _ProductviewState extends State<Productview> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('product'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: SingleChildScrollView(
+          child: Card(
+            // color: Colors.red,
+            child: Column(
+              children: [
+                Image(
+                  height: 300.0,
+                  width: MediaQuery.of(context).size.width,
+                  image: NetworkImage(
+                      'https://cdn.pixabay.com/photo/2014/05/02/21/50/laptop-336378__480.jpg'),
+                  fit: BoxFit.fill,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      'data[index]',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    ),
+                    Text(
+                      "Rs:" + 'data[index]',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    ),
+                  ],
+                ),
+                Text(
+                  "Rs:" + 'data[index]',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
