@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:kaskelimart/login.dart';
 import 'package:http/http.dart' as http;
 
+List a = [];
+int b = 0;
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -20,20 +23,14 @@ class _HomeState extends State<Home> {
   Widget product() {
     return Padding(
       padding: EdgeInsets.all(5),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Productview()));
-        },
-        child: FutureBuilder(
-            future: getProduct(),
-            builder: (context, AsyncSnapshot<dynamic> snapshot) {
-              if (snapshot.hasData) {
-                return createGridView(snapshot.data, context);
-              }
-              return CircularProgressIndicator();
-            }),
-      ),
+      child: FutureBuilder(
+          future: getProduct(),
+          builder: (context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.hasData) {
+              return createGridView(snapshot.data, context);
+            }
+            return CircularProgressIndicator();
+          }),
     );
   }
 
@@ -203,36 +200,46 @@ class _HomeState extends State<Home> {
               mainAxisSpacing: 10),
           itemCount: data.length,
           itemBuilder: (BuildContext context, index) {
-            return Card(
-              // color: Colors.red,
-              child: Column(
-                children: [
-                  Image(
-                    height: 100.0,
-                    width: 100.00,
-                    image: NetworkImage(
-                        "https://kaskelimart.company/api/image/" +
-                            data[index]['image_name']),
-                    fit: BoxFit.fill,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(data[index]['Pro_name'],
+            return InkWell(
+              onTap: () {
+                a = data;
+                b = index;
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Productview(data, context)));
+              },
+              child: Card(
+                // color: Colors.red,
+                child: Column(
+                  children: [
+                    Image(
+                      height: 100.0,
+                      width: 100.00,
+                      image: NetworkImage(
+                          "https://kaskelimart.company/api/image/" +
+                              data[index]['image_name']),
+                      fit: BoxFit.fill,
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(data[index]['Pro_name'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15),
+                            overflow: TextOverflow.fade),
+                        Text(
+                          "Rs:" + data[index]['price'],
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15),
-                          overflow: TextOverflow.fade),
-                      Text(
-                        "Rs:" + data[index]['price'],
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
-                      ),
-                    ],
-                  )
-                ],
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             );
           }),
@@ -351,7 +358,7 @@ class _MaindrawerState extends State<Maindrawer> {
 }
 
 class Productview extends StatefulWidget {
-  Productview({Key? key}) : super(key: key);
+  Productview(List data, BuildContext context);
 
   @override
   _ProductviewState createState() => _ProductviewState();
@@ -361,50 +368,55 @@ class _ProductviewState extends State<Productview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('product'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: SingleChildScrollView(
-          child: Card(
-            // color: Colors.red,
+        appBar: AppBar(
+          title: Text('product'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: SingleChildScrollView(
             child: Column(
               children: [
-                Image(
-                  height: 300.0,
-                  width: MediaQuery.of(context).size.width,
-                  image: NetworkImage(
-                      'https://cdn.pixabay.com/photo/2014/05/02/21/50/laptop-336378__480.jpg'),
-                  fit: BoxFit.fill,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      'data[index]',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                    ),
-                    Text(
-                      "Rs:" + 'data[index]',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                    ),
-                  ],
+                Card(
+                  // color: Colors.red,
+                  child: Column(
+                    children: [
+                      Image(
+                        height: MediaQuery.of(context).size.width / 1.25,
+                        width: MediaQuery.of(context).size.width,
+                        image: NetworkImage(
+                            "https://kaskelimart.company/api/image/" +
+                                a[b]['image_name']),
+                        fit: BoxFit.fill,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            "Rs:" + a[b]['price'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 25),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 Text(
-                  "Rs:" + 'data[index]',
+                  a[b]['Pro_name'],
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
+                Text(
+                  "\nFeatures:\n" + a[b]['description'],
+                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25),
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.fade,
                 ),
               ],
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
