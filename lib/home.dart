@@ -218,18 +218,18 @@ class _HomeState extends State<Home> {
                   SizedBox(
                     height: 5,
                   ),
-                  Row(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text(
-                        data[index]['Pro_name'],
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 25),
-                      ),
+                      Text(data[index]['Pro_name'],
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
+                          overflow: TextOverflow.fade),
                       Text(
                         "Rs:" + data[index]['price'],
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 25),
+                            fontWeight: FontWeight.bold, fontSize: 15),
+                        overflow: TextOverflow.fade,
                       ),
                     ],
                   )
