@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaskelimart/producteditandelete.dart';
 import 'package:kaskelimart/productenter.dart';
 
 class AdminHome extends StatefulWidget {
@@ -16,12 +17,23 @@ class _AdminHomeState extends State<AdminHome> {
         title: Text('Admin Home'),
       ),
       body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Productenter()));
-          },
-          child: Text('Enter Product'),
+        child: Column(
+          children: [
+            RaisedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Productenter()));
+              },
+              child: Text('Enter Product'),
+            ),
+            RaisedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Productedit()));
+              },
+              child: Text('Edit Product'),
+            ),
+          ],
         ),
       ),
     );

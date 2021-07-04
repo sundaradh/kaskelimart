@@ -119,13 +119,21 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 SizedBox(height: 20),
+                OutlineButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => Signup()));
+                  },
+                  borderSide: BorderSide(color: Colors.blue),
+                  child: Text("Sign Up"),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Do you havenot an account?"),
+                    Text("Forget Password?"),
                     GestureDetector(
                       child: Text(
-                        'Sign Up',
+                        'Click here',
                         style: TextStyle(color: Colors.blue),
                       ),
                       onTap: () {
