@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:kaskelimart/login.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kaskelimart/setting.dart';
 
 List a = [];
 int b = 0;
+String? finalEmail, message;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -16,10 +19,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<String> listImages = [
-    'https://cdn.flixbus.de/2018-01/munich-header-d8_0.jpg',
-    'https://cdn.flixbus.de/2018-01/munich-header-d8_0.jpg',
-  ];
+  Future getloginvalidatordata() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var obtainedEmail = sharedPreferences.getString("email");
+    setState(() {
+      finalEmail = obtainedEmail;
+    });
+  }
+
   Widget product() {
     return Padding(
       padding: EdgeInsets.all(5),
@@ -45,6 +53,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     getProduct();
+    getloginvalidatordata();
     super.initState();
   }
 
@@ -96,12 +105,23 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    getProduct();
+    setState(() {
+      getProduct();
+    });
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.green,
         title: Text("Home"),
+        actions: <Widget>[
+          IconButton(
+              onPressed: () {
+                viewcart();
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Cart()));
+              },
+              icon: Icon(Icons.shopping_cart))
+        ],
       ),
       drawer: Maindrawer(),
       body: SingleChildScrollView(
@@ -186,8 +206,8 @@ class _HomeState extends State<Home> {
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 250,
-              crossAxisSpacing: 0.5,
+              maxCrossAxisExtent: 280,
+              crossAxisSpacing: 0.7,
               mainAxisSpacing: 10),
           itemCount: data.length,
           itemBuilder: (BuildContext context, index) {
@@ -200,41 +220,78 @@ class _HomeState extends State<Home> {
                     MaterialPageRoute(
                         builder: (context) => Productview(data, context)));
               },
-              child: Card(
-                // color: Colors.red,
-                child: Column(
-                  children: [
-                    Image(
-                      height: 100.0,
-                      width: 100.00,
-                      image: NetworkImage(
-                          "https://kaskelimart.company/api/image/" +
-                              data[index]['image_name']),
-                      fit: BoxFit.fill,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(data[index]['Pro_name'],
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15),
-                            overflow: TextOverflow.fade),
-                        Text(
-                          "Rs:" + data[index]['price'],
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
-                        ),
-                      ],
-                    )
-                  ],
+              child: Container(
+                child: Card(
+                  // color: Colors.red,
+                  child: Column(
+                    children: [
+                      Image(
+                        height: 100.0,
+                        width: 100.00,
+                        image: NetworkImage(
+                            "https://kaskelimart.company/api/image/" +
+                                data[index]['image_name']),
+                        fit: BoxFit.fill,
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(data[index]['Pro_name'],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15),
+                              overflow: TextOverflow.fade),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                "Rs:" + data[index]['price'],
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    a = data;
+                                    b = index;
+                                    addcart();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                'This Product added to your cart')));
+                                  },
+                                  icon: Icon(Icons.add_shopping_cart)),
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             );
           }),
     );
+  }
+
+  Future addcart() async {
+    var apiurl = "https://kaskelimart.company/api/addcart.php";
+    Map mapdata = {
+      'email': finalEmail,
+      'Pro_id': a[b]['id'],
+    };
+    print("JSON DATA: $mapdata");
+    http.Response response = await http.post(Uri.parse(apiurl), body: mapdata);
+
+    if (response.body.isNotEmpty) {
+      var data = jsonDecode(response.body)['message'];
+
+      setState(() {
+        message = data;
+        print(message);
+      });
+    }
   }
 }
 
@@ -253,8 +310,8 @@ class _MaindrawerState extends State<Maindrawer> {
         children: <Widget>[
           // header
           UserAccountsDrawerHeader(
-            accountName: Text('sanjay'),
-            accountEmail: Text('sanjayrawal411@gmail.com'),
+            accountName: Text('$finalEmail'),
+            accountEmail: Text('$finalEmail'),
             currentAccountPicture: GestureDetector(
               child: CircleAvatar(
                 backgroundColor: Colors.grey,
@@ -328,7 +385,7 @@ class _MaindrawerState extends State<Maindrawer> {
                   .push(MaterialPageRoute(builder: (context) => Setting()));
             },
             child: ListTile(
-              title: Text("setting"),
+              title: Text("Setting"),
               leading: Icon(
                 Icons.settings,
                 color: Colors.deepOrange,
@@ -344,7 +401,23 @@ class _MaindrawerState extends State<Maindrawer> {
                 color: Colors.pink,
               ),
             ),
-          )
+          ),
+          InkWell(
+            onTap: () async {
+              final SharedPreferences sharedPreferences =
+                  await SharedPreferences.getInstance();
+              sharedPreferences.remove('email');
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => Login()));
+            },
+            child: ListTile(
+              title: Text("Logout"),
+              leading: Icon(
+                Icons.logout,
+                color: Colors.deepOrange,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -413,4 +486,118 @@ class _ProductviewState extends State<Productview> {
           ),
         ));
   }
+}
+
+class Cart extends StatefulWidget {
+  const Cart({Key? key}) : super(key: key);
+
+  @override
+  _CartState createState() => _CartState();
+}
+
+class _CartState extends State<Cart> {
+  Widget viewcarts() {
+    return FutureBuilder(
+      future: viewcart(),
+      builder: (context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: snapshot.data.length,
+            itemBuilder: (BuildContext context, index) {
+              return new InkWell(
+                onTap: () {
+                  a = snapshot.data;
+                  b = index;
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Productview(snapshot.data, context)));
+                },
+                child: Container(
+                  child: Card(
+                    // color: Colors.red,
+                    child: Column(
+                      children: [
+                        Image(
+                          height: 100.0,
+                          width: 100.00,
+                          image: NetworkImage(
+                              "https://kaskelimart.company/api/image/" +
+                                  snapshot.data[index]['image_name']),
+                          fit: BoxFit.fill,
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(snapshot.data[index]['Pro_name'],
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
+                                overflow: TextOverflow.fade),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  "Rs:" + snapshot.data[index]['price'],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      a = snapshot.data;
+                                      b = index;
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  'This Product added to your cart')));
+                                    },
+                                    icon: Icon(Icons.shopping_cart)),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        }
+        return Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    setState(() {
+      viewcart();
+    });
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Cart'),
+      ),
+      body: Flexible(child: viewcarts()),
+    );
+  }
+}
+
+Future<List> viewcart() async {
+  var apiurl = "https://kaskelimart.company/api/cartview.php";
+  Map mapdata = {
+    'email': finalEmail,
+  };
+  print("JSON DATA: $mapdata");
+  http.Response response = await http.post(Uri.parse(apiurl), body: mapdata);
+  var data = jsonDecode(response.body);
+  print(data);
+  return data;
 }
