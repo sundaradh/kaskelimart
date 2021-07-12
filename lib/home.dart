@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:carousel_images/carousel_images.dart';
 import 'package:flutter/material.dart';
 import 'package:kaskelimart/login.dart';
 import 'package:http/http.dart' as http;
+import 'package:kaskelimart/setting.dart';
 
 List a = [];
 int b = 0;
@@ -99,6 +99,8 @@ class _HomeState extends State<Home> {
     getProduct();
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.green,
         title: Text("Home"),
       ),
       drawer: Maindrawer(),
@@ -122,17 +124,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-            SizedBox(
-                height: 150.0,
-                width: 300.0,
-                child: CarouselImages(
-                  scaleFactor: 0.6,
-                  listImages: listImages,
-                  height: 300.0,
-                  borderRadius: 30.0,
-                  cachedNetworkImage: true,
-                  verticalAlignment: Alignment.topCenter,
-                )),
             SizedBox(
               height: 10,
             ),
@@ -332,7 +323,10 @@ class _MaindrawerState extends State<Maindrawer> {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Setting()));
+            },
             child: ListTile(
               title: Text("setting"),
               leading: Icon(

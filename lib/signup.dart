@@ -23,8 +23,14 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Signup"),
+        title: Text(
+          "sign up",
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.green,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -33,9 +39,11 @@ class _SignupState extends State<Signup> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: 50,
-                  child: Icon(Icons.account_circle_outlined),
+                Container(
+                  height: 400,
+                  child: Image(
+                    image: AssetImage("images/login.jpg"),
+                  ),
                 ),
                 SizedBox(
                   height: 15,
@@ -46,10 +54,13 @@ class _SignupState extends State<Signup> {
                     controller: _name,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.person),
+                      icon: Icon(
+                        Icons.person,
+                        color: Colors.green,
+                      ),
                       hintText: 'Full Name',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
                       ),
                     ),
                     validator: (String? value) {
@@ -68,10 +79,14 @@ class _SignupState extends State<Signup> {
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.email),
+                      icon: Icon(
+                        Icons.email,
+                        color: Colors.amberAccent,
+                      ),
                       hintText: 'Email',
+                      fillColor: Colors.white,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
                       ),
                     ),
                     validator: (String? value) {
@@ -95,10 +110,13 @@ class _SignupState extends State<Signup> {
                     controller: _phone,
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.call),
+                      icon: Icon(
+                        Icons.call,
+                        color: Colors.blue,
+                      ),
                       hintText: 'Phone Number',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
                       ),
                     ),
                     validator: (String? value) {
@@ -125,10 +143,13 @@ class _SignupState extends State<Signup> {
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
+                      icon: Icon(
+                        Icons.lock,
+                        color: Colors.red,
+                      ),
                       hintText: 'Password',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
                       ),
                     ),
                     validator: (String? value) {
@@ -150,10 +171,13 @@ class _SignupState extends State<Signup> {
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
+                      icon: Icon(
+                        Icons.lock,
+                        color: Colors.red,
+                      ),
                       hintText: 'Confirm Password',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
                       ),
                     ),
                     validator: (String? value) {
@@ -176,7 +200,13 @@ class _SignupState extends State<Signup> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(
+                      height: 60,
+                      width: 200,
                       child: RaisedButton(
+                        color: Colors.greenAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
                         onPressed: () {
                           if (_fromKey.currentState!.validate()) {
                             register();
@@ -199,20 +229,32 @@ class _SignupState extends State<Signup> {
                         child: Text("Sign up"),
                       ),
                     ),
-                    RaisedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => Loginadmin()));
-                      },
-                      child: Text("Admin Login"),
+                    SizedBox(
+                      height: 60,
+                      width: 200,
+                      child: RaisedButton(
+                        color: Colors.purpleAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => Loginadmin()));
+                        },
+                        child: Text("Admin Login"),
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 40),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Do you have alredy an account?"),
+                    SizedBox(
+                      width: 20,
+                    ),
                     GestureDetector(
                       child: Text(
                         'Login',
@@ -225,7 +267,6 @@ class _SignupState extends State<Signup> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
               ],
             ),
           ),

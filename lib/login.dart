@@ -21,8 +21,14 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Login"),
+        title: Text(
+          "Login",
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.green,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -31,9 +37,11 @@ class _LoginState extends State<Login> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: 50,
-                  child: Icon(Icons.account_circle_outlined),
+                Container(
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: Image(
+                    image: AssetImage("images/login.jpg"),
+                  ),
                 ),
                 SizedBox(
                   height: 15,
@@ -44,10 +52,13 @@ class _LoginState extends State<Login> {
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.email),
+                      icon: Icon(
+                        Icons.email,
+                        color: Colors.yellow,
+                      ),
                       hintText: 'Email',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
                       ),
                     ),
                     validator: (String? value) {
@@ -72,10 +83,13 @@ class _LoginState extends State<Login> {
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
+                      icon: Icon(
+                        Icons.lock,
+                        color: Colors.red,
+                      ),
                       hintText: 'Password',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
                       ),
                     ),
                     validator: (String? value) {
@@ -95,7 +109,12 @@ class _LoginState extends State<Login> {
                   style: TextStyle(color: Colors.red),
                 ),
                 SizedBox(
+                  height: 70,
+                  width: 300,
                   child: RaisedButton(
+                    color: Colors.greenAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30))),
                     onPressed: () {
                       if (_fromKey.currentState!.validate()) {
                         login();
@@ -118,14 +137,25 @@ class _LoginState extends State<Login> {
                     child: Text("Login"),
                   ),
                 ),
-                SizedBox(height: 20),
-                OutlineButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => Signup()));
-                  },
-                  borderSide: BorderSide(color: Colors.blue),
-                  child: Text("Sign Up"),
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 60,
+                  width: 280,
+                  child: OutlineButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30))),
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => Signup()));
+                    },
+                    borderSide: BorderSide(color: Colors.black),
+                    child: Text("Sign Up"),
+                  ),
+                ),
+                SizedBox(
+                  height: 35,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
