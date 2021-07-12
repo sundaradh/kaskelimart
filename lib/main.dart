@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:kaskelimart/home.dart';
 import 'package:kaskelimart/login.dart';
 
-import 'package:kaskelimart/signup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+String? finalEmail;
 void main() {
   runApp(MaterialApp(
     title: "Kaskeli Mart",
@@ -26,9 +27,20 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 4), () {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+    getloginvalidatordata().whenComplete(() async {
+      Timer(Duration(seconds: 2), () {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => finalEmail != null ? Home() : Login()));
+      });
+    });
+  }
+
+  Future getloginvalidatordata() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var obtainedEmail = sharedPreferences.getString("email");
+    setState(() {
+      finalEmail = obtainedEmail;
     });
   }
 

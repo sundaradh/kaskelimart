@@ -26,7 +26,7 @@ class _SignupState extends State<Signup> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          "sign up",
+          "Signup",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -40,13 +40,10 @@ class _SignupState extends State<Signup> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  height: 400,
+                  height: 300,
                   child: Image(
                     image: AssetImage("images/login.jpg"),
                   ),
-                ),
-                SizedBox(
-                  height: 15,
                 ),
                 Padding(
                   padding: EdgeInsets.all(10),
@@ -200,8 +197,8 @@ class _SignupState extends State<Signup> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(
-                      height: 60,
-                      width: 200,
+                      height: 40,
+                      width: 120,
                       child: RaisedButton(
                         color: Colors.greenAccent,
                         shape: RoundedRectangleBorder(
@@ -230,8 +227,8 @@ class _SignupState extends State<Signup> {
                       ),
                     ),
                     SizedBox(
-                      height: 60,
-                      width: 200,
+                      height: 40,
+                      width: 120,
                       child: RaisedButton(
                         color: Colors.purpleAccent,
                         shape: RoundedRectangleBorder(
@@ -252,9 +249,6 @@ class _SignupState extends State<Signup> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Do you have alredy an account?"),
-                    SizedBox(
-                      width: 20,
-                    ),
                     GestureDetector(
                       child: Text(
                         'Login',
@@ -267,6 +261,9 @@ class _SignupState extends State<Signup> {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 30,
+                )
               ],
             ),
           ),

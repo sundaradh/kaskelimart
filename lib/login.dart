@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:kaskelimart/home.dart';
 import 'package:kaskelimart/signup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -109,8 +110,8 @@ class _LoginState extends State<Login> {
                   style: TextStyle(color: Colors.red),
                 ),
                 SizedBox(
-                  height: 70,
-                  width: 300,
+                  height: 40,
+                  width: 150,
                   child: RaisedButton(
                     color: Colors.greenAccent,
                     shape: RoundedRectangleBorder(
@@ -141,8 +142,8 @@ class _LoginState extends State<Login> {
                   height: 20,
                 ),
                 SizedBox(
-                  height: 60,
-                  width: 280,
+                  height: 40,
+                  width: 150,
                   child: OutlineButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -195,6 +196,9 @@ class _LoginState extends State<Login> {
       var data = jsonDecode(response.body);
       print("DATA:$data");
       if (data.length == 1) {
+        final SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        sharedPreferences.setString("email", _email.text);
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
       } else {
