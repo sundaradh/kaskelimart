@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:kaskelimart/login.dart';
 import 'package:http/http.dart' as http;
+import 'package:kaskelimart/orderconfirm.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kaskelimart/setting.dart';
@@ -481,10 +482,62 @@ class _ProductviewState extends State<Productview> {
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.fade,
                 ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      OutlineButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
+                        onPressed: () {
+                          addcart();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('This Product added to your cart')));
+                        },
+                        borderSide: BorderSide(color: Colors.black),
+                        child: Text("Add cart"),
+                      ),
+                      RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Orderconfirm()));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Confirm Your Order')));
+                        },
+                        child: Text("Buy Now"),
+                      )
+                    ])
               ],
             ),
           ),
         ));
+  }
+
+  Future addcart() async {
+    var apiurl = "https://kaskelimart.company/api/addcart.php";
+    Map mapdata = {
+      'email': finalEmail,
+      'Pro_id': a[b]['id'],
+    };
+    print("JSON DATA: $mapdata");
+    http.Response response = await http.post(Uri.parse(apiurl), body: mapdata);
+
+    if (response.body.isNotEmpty) {
+      var data = jsonDecode(response.body)['message'];
+
+      setState(() {
+        message = data;
+        print(message);
+      });
+    }
   }
 }
 
@@ -501,74 +554,16 @@ class _CartState extends State<Cart> {
       future: viewcart(),
       builder: (context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasData) {
-          return ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
+          return ListView.separated(
+            padding: const EdgeInsets.all(8),
             itemCount: snapshot.data.length,
-            itemBuilder: (BuildContext context, index) {
-              return new InkWell(
-                onTap: () {
-                  a = snapshot.data;
-                  b = index;
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              Productview(snapshot.data, context)));
-                },
-                child: Container(
-                  child: Card(
-                    // color: Colors.red,
-                    child: Column(
-                      children: [
-                        Image(
-                          height: 100.0,
-                          width: 100.00,
-                          image: NetworkImage(
-                              "https://kaskelimart.company/api/image/" +
-                                  snapshot.data[index]['image_name']),
-                          fit: BoxFit.fill,
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(snapshot.data[index]['Pro_name'],
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                                overflow: TextOverflow.fade),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  "Rs:" + snapshot.data[index]['price'],
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),
-                                ),
-                                IconButton(
-                                    onPressed: () {
-                                      a = snapshot.data;
-                                      b = index;
-
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                              content: Text(
-                                                  'This Product added to your cart')));
-                                    },
-                                    icon: Icon(Icons.shopping_cart)),
-                              ],
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                child: Text('cart' + snapshot.data[context]['Pro_name']),
               );
             },
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
           );
         }
         return Center(child: CircularProgressIndicator());
@@ -585,7 +580,7 @@ class _CartState extends State<Cart> {
       appBar: AppBar(
         title: Text('Cart'),
       ),
-      body: Flexible(child: viewcarts()),
+      body: Flexible(flex: 1, child: viewcarts()),
     );
   }
 }

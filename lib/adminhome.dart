@@ -33,9 +33,30 @@ class _AdminHomeState extends State<AdminHome> {
               },
               child: Text('Edit Product'),
             ),
+            RaisedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ViewAllOrder()));
+              },
+              child: Text('View Order'),
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+class ViewAllOrder extends StatefulWidget {
+  const ViewAllOrder({Key? key}) : super(key: key);
+
+  @override
+  _ViewAllOrderState createState() => _ViewAllOrderState();
+}
+
+class _ViewAllOrderState extends State<ViewAllOrder> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(appBar: AppBar(title: Text("View All Order")));
   }
 }
