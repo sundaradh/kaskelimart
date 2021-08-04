@@ -549,39 +549,93 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  Widget viewcarts() {
-    return FutureBuilder(
-      future: viewcart(),
-      builder: (context, AsyncSnapshot<dynamic> snapshot) {
-        if (snapshot.hasData) {
-          return ListView.separated(
-            padding: const EdgeInsets.all(8),
-            itemCount: snapshot.data.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                child: Text('cart' + snapshot.data[context]['Pro_name']),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
-          );
-        }
-        return Center(child: CircularProgressIndicator());
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     setState(() {
       viewcart();
     });
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Cart'),
-      ),
-      body: Flexible(flex: 1, child: viewcarts()),
-    );
+        appBar: AppBar(
+          title: Text('Cart'),
+        ),
+        body: SingleChildScrollView(
+          child: FutureBuilder(
+            future: viewcart(),
+            builder: (context, AsyncSnapshot<dynamic> snapshot) {
+              if (snapshot.hasData) {
+                return GridView.builder(
+                    scrollDirection: Axis.vertical,
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 280,
+                        crossAxisSpacing: 0.7,
+                        mainAxisSpacing: 10),
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, index) {
+                      return InkWell(
+                        onTap: () {
+                          a = snapshot.data;
+                          b = index;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Productview(snapshot.data, context)));
+                        },
+                        child: Container(
+                          child: Card(
+                            // color: Colors.red,
+                            child: Column(
+                              children: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.select_all_outlined)),
+                                Image(
+                                  height: 60.0,
+                                  width: 80.00,
+                                  image: NetworkImage(
+                                      "https://kaskelimart.company/api/image/" +
+                                          snapshot.data[index]['image_name']),
+                                  fit: BoxFit.fill,
+                                ),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(snapshot.data[index]['Pro_name'],
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                        overflow: TextOverflow.fade),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          "Rs:" + snapshot.data[index]['price'],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    });
+              }
+              return Center(child: CircularProgressIndicator());
+            },
+          ),
+        ));
   }
 }
 
