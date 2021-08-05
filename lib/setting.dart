@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaskelimart/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Setting extends StatefulWidget {
   @override
@@ -90,7 +92,13 @@ class _SettingState extends State<Setting> {
                 color: Colors.greenAccent,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(0))),
-                onPressed: () {},
+                onPressed: () async {
+                  final SharedPreferences sharedPreferences =
+                      await SharedPreferences.getInstance();
+                  sharedPreferences.remove('email');
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Login()));
+                },
                 child: Text(
                   "Logout",
                   style: TextStyle(

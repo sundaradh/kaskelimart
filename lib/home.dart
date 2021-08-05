@@ -11,6 +11,7 @@ import 'package:kaskelimart/setting.dart';
 List a = [];
 int b = 0;
 String? finalEmail, message;
+int currentindex = 0;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -109,93 +110,100 @@ class _HomeState extends State<Home> {
     setState(() {
       getProduct();
     });
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.green,
-        title: Text("Home"),
-        actions: <Widget>[
-          IconButton(
-              onPressed: () {
-                viewcart();
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Cart()));
-              },
-              icon: Icon(Icons.shopping_cart))
-        ],
-      ),
-      drawer: Maindrawer(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Form(
-              child: Container(
-                child: Padding(
-                  padding:
-                      EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.search),
-                      hintText: 'Search',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.green,
+          title: Text("Home"),
+          actions: <Widget>[
+            IconButton(
+                onPressed: () {
+                  viewcart();
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Cart()));
+                },
+                icon: Icon(Icons.shopping_cart))
+          ],
+        ),
+        drawer: Maindrawer(),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Form(
+                child: Container(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: 30, right: 30, top: 15, bottom: 15),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.search),
+                        hintText: 'Search',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Category',
-              style: TextStyle(fontSize: 25.0),
-            ),
-            Container(
-                height: 140,
-                child: Container(
-                    child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            category(Icon(Icons.food_bank), 'food'),
-                            category(Icon(Icons.computer), 'Computer'),
-                            category(Icon(Icons.phone), 'Mobile'),
-                            category(Icon(Icons.food_bank), 'food'),
-                            category(Icon(Icons.computer), 'Computer'),
-                            category(Icon(Icons.phone), 'Mobile'),
-                          ],
-                        )))),
-            product()
-          ],
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Category',
+                style: TextStyle(fontSize: 25.0),
+              ),
+              Container(
+                  height: 140,
+                  child: Container(
+                      child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              category(Icon(Icons.food_bank), 'food'),
+                              category(Icon(Icons.computer), 'Computer'),
+                              category(Icon(Icons.phone), 'Mobile'),
+                              category(Icon(Icons.food_bank), 'food'),
+                              category(Icon(Icons.computer), 'Computer'),
+                              category(Icon(Icons.phone), 'Mobile'),
+                            ],
+                          )))),
+              product()
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: Colors.blue,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
-            backgroundColor: Colors.green,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
-            backgroundColor: Colors.purple,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-            backgroundColor: Colors.pink,
-          ),
-        ],
-        selectedItemColor: Colors.amber[800],
-        onTap: null,
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentindex,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+              backgroundColor: Colors.blue,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: 'favorite',
+              backgroundColor: Colors.green,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.badge),
+              label: 'my order',
+              backgroundColor: Colors.purple,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings',
+              backgroundColor: Colors.pink,
+            ),
+          ],
+          selectedItemColor: Colors.amber[800],
+          onTap: (index) {
+            setState(() {
+              currentindex = index;
+            });
+          },
+        ),
       ),
     );
   }

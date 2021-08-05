@@ -28,7 +28,7 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
     getloginvalidatordata().whenComplete(() async {
-      Timer(Duration(seconds: 2), () {
+      Timer(Duration(seconds: 1), () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => finalEmail != null ? Home() : Login()));
       });
