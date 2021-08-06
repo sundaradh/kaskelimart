@@ -86,7 +86,7 @@ class _SettingState extends State<Setting> {
                 "Theme Dark", valNotify1, onChangeFunction1),
             buildNotificationOption(
                 "Account Active", valNotify2, onChangeFunction2),
-            SizedBox(height: 650),
+            SizedBox(height: 150),
             Center(
               child: RaisedButton(
                 color: Colors.greenAccent,

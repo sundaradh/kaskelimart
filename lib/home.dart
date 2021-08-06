@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:kaskelimart/favorite.dart';
 import 'package:kaskelimart/login.dart';
 import 'package:http/http.dart' as http;
+import 'package:kaskelimart/myorder.dart';
 import 'package:kaskelimart/orderconfirm.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -110,6 +112,60 @@ class _HomeState extends State<Home> {
     setState(() {
       getProduct();
     });
+    final screen = [
+      SingleChildScrollView(
+        child: Column(
+          children: [
+            Form(
+              child: Container(
+                child: Padding(
+                  padding:
+                      EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(Icons.search),
+                      hintText: 'Search',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Category',
+              style: TextStyle(fontSize: 25.0),
+            ),
+            Container(
+              height: 140,
+              child: Container(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      category(Icon(Icons.food_bank), 'food'),
+                      category(Icon(Icons.computer), 'Computer'),
+                      category(Icon(Icons.phone), 'Mobile'),
+                      category(Icon(Icons.food_bank), 'food'),
+                      category(Icon(Icons.computer), 'Computer'),
+                      category(Icon(Icons.phone), 'Mobile'),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            product(),
+          ],
+        ),
+      ),
+      Favorite(),
+      MyOrder(),
+      Setting()
+    ];
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -127,52 +183,7 @@ class _HomeState extends State<Home> {
           ],
         ),
         drawer: Maindrawer(),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Form(
-                child: Container(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: 30, right: 30, top: 15, bottom: 15),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.search),
-                        hintText: 'Search',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Category',
-                style: TextStyle(fontSize: 25.0),
-              ),
-              Container(
-                  height: 140,
-                  child: Container(
-                      child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              category(Icon(Icons.food_bank), 'food'),
-                              category(Icon(Icons.computer), 'Computer'),
-                              category(Icon(Icons.phone), 'Mobile'),
-                              category(Icon(Icons.food_bank), 'food'),
-                              category(Icon(Icons.computer), 'Computer'),
-                              category(Icon(Icons.phone), 'Mobile'),
-                            ],
-                          )))),
-              product()
-            ],
-          ),
-        ),
+        body: screen[currentindex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: currentindex,
           items: const <BottomNavigationBarItem>[
