@@ -14,6 +14,7 @@ List a = [];
 int b = 0;
 String? finalEmail, message;
 int currentindex = 0;
+var name = "Home";
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -116,6 +117,7 @@ class _HomeState extends State<Home> {
       SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height: 40),
             Form(
               child: Container(
                 child: Padding(
@@ -125,6 +127,8 @@ class _HomeState extends State<Home> {
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.search),
                       hintText: 'Search',
+                      contentPadding: new EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 5.0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(40.0)),
                       ),
@@ -168,29 +172,42 @@ class _HomeState extends State<Home> {
     ];
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.green,
-          title: Text("Home"),
-          actions: <Widget>[
-            IconButton(
-                onPressed: () {
-                  viewcart();
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => Cart()));
-                },
-                icon: Icon(Icons.shopping_cart))
-          ],
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: AppBar(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(80),
+                    bottomRight: Radius.circular(80))),
+            centerTitle: true,
+            backgroundColor: Colors.green,
+            title: Text(name),
+            actions: <Widget>[
+              IconButton(
+                  onPressed: () {
+                    viewcart();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Cart()));
+                  },
+                  icon: Icon(
+                    Icons.shopping_cart,
+                    size: 20,
+                  ))
+            ],
+          ),
         ),
         drawer: Maindrawer(),
         body: screen[currentindex],
         bottomNavigationBar: BottomNavigationBar(
+          iconSize: 20.0,
           currentIndex: currentindex,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',
-              backgroundColor: Colors.blue,
+              backgroundColor: Colors.green,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.favorite),
@@ -200,18 +217,25 @@ class _HomeState extends State<Home> {
             BottomNavigationBarItem(
               icon: Icon(Icons.badge),
               label: 'my order',
-              backgroundColor: Colors.purple,
+              backgroundColor: Colors.green,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: 'Settings',
-              backgroundColor: Colors.pink,
+              backgroundColor: Colors.green,
             ),
           ],
           selectedItemColor: Colors.amber[800],
           onTap: (index) {
             setState(() {
               currentindex = index;
+              if (index == 1) {
+                name = "Favorite";
+              } else if (index == 2) {
+                name = "My Order";
+              } else if (index == 3) {
+                name = "Setting";
+              }
             });
           },
         ),
@@ -341,20 +365,11 @@ class _MaindrawerState extends State<Maindrawer> {
                 ),
               ),
             ),
-            decoration: BoxDecoration(color: Colors.blue),
+            decoration: BoxDecoration(color: Colors.green),
           ),
 
           // body
-          InkWell(
-            onTap: () {},
-            child: ListTile(
-              title: Text("Home page"),
-              leading: Icon(
-                Icons.home,
-                color: Colors.green,
-              ),
-            ),
-          ),
+
           Divider(),
 
           InkWell(

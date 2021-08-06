@@ -82,6 +82,14 @@ class _ViewAllOrderState extends State<ViewAllOrder> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, index) {
                     return InkWell(
+                      onTap: () {
+                        b = index;
+                        a = snapshot.data;
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Orderdetail()));
+                      },
                       child: Container(
                         child: Card(
                           // color: Colors.red,
@@ -110,21 +118,7 @@ class _ViewAllOrderState extends State<ViewAllOrder> {
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                        "Rs:" + snapshot.data[index]['price'],
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                      Text(
-                                        "count:" +
-                                            snapshot.data[index]['count'],
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                    ],
+                                    children: [],
                                   ),
                                 ],
                               ),
@@ -133,17 +127,7 @@ class _ViewAllOrderState extends State<ViewAllOrder> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 15),
                               ),
-                              Text(
-                                "Address:" + snapshot.data[index]['Address'],
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
-                              Text(
-                                "Phone_Number:" +
-                                    snapshot.data[index]['Phone_Number'],
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
+
                               Text(
                                 "email:" + snapshot.data[index]['email'],
                                 style: TextStyle(
@@ -175,4 +159,89 @@ Future<List> orderview() async {
   var data = jsonDecode(response.body);
   print(data);
   return data;
+}
+
+class Orderdetail extends StatefulWidget {
+  const Orderdetail({Key? key}) : super(key: key);
+
+  @override
+  _OrderdetailState createState() => _OrderdetailState();
+}
+
+class _OrderdetailState extends State<Orderdetail> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          tooltip: 'Pick Image',
+          child: Icon(Icons.edit),
+        ),
+        appBar: AppBar(
+          title: Text('Order details'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Card(
+                  // color: Colors.red,
+                  child: Column(
+                    children: [
+                      Image(
+                        height: MediaQuery.of(context).size.width / 1.25,
+                        width: MediaQuery.of(context).size.width,
+                        image: NetworkImage(
+                            "https://kaskelimart.company/api/image/" +
+                                a[b]['image_name']),
+                        fit: BoxFit.fill,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            "Rs:" + a[b]['price'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 25),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  a[b]['Pro_name'],
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
+                Text(
+                  "email:" + a[b]['email'],
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
+                Text(
+                  "status:" + a[b]['Status'],
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
+                Text(
+                  "phone no:" + a[b]['Phone_Number'],
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
+                Text(
+                  "Adress:" + a[b]['Address'],
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
+                Text(
+                  "\nFeatures:\n" + a[b]['description'],
+                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25),
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.fade,
+                ),
+              ],
+            ),
+          ),
+        ));
+  }
 }

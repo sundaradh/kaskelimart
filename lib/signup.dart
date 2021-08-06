@@ -57,6 +57,8 @@ class _SignupState extends State<Signup> {
                           color: Colors.green,
                         ),
                         hintText: 'Full Name',
+                        contentPadding: new EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 5.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(40)),
                         ),
@@ -82,6 +84,8 @@ class _SignupState extends State<Signup> {
                           color: Colors.amberAccent,
                         ),
                         hintText: 'Email',
+                        contentPadding: new EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 5.0),
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(40)),
@@ -113,6 +117,8 @@ class _SignupState extends State<Signup> {
                           color: Colors.blue,
                         ),
                         hintText: 'Phone Number',
+                        contentPadding: new EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 5.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(40)),
                         ),
@@ -146,6 +152,8 @@ class _SignupState extends State<Signup> {
                           color: Colors.red,
                         ),
                         hintText: 'Password',
+                        contentPadding: new EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 5.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(40)),
                         ),
@@ -174,6 +182,8 @@ class _SignupState extends State<Signup> {
                           color: Colors.red,
                         ),
                         hintText: 'Confirm Password',
+                        contentPadding: new EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 5.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(40)),
                         ),

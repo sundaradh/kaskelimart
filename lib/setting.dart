@@ -36,19 +36,6 @@ class _SettingState extends State<Setting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Setting",
-          style: TextStyle(fontSize: 22),
-        ),
-        backgroundColor: Colors.greenAccent,
-        leading: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            )),
-      ),
       body: Container(
         padding: const EdgeInsets.all(10),
         child: ListView(

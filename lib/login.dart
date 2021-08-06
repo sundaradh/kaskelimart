@@ -59,6 +59,8 @@ class _LoginState extends State<Login> {
                           color: Colors.yellow,
                         ),
                         hintText: 'Email',
+                        contentPadding: new EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 5.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(40)),
                         ),
@@ -90,6 +92,8 @@ class _LoginState extends State<Login> {
                           color: Colors.red,
                         ),
                         hintText: 'Password',
+                        contentPadding: new EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 5.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(40)),
                         ),
