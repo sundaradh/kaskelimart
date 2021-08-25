@@ -137,31 +137,31 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Category',
-              style: TextStyle(fontSize: 25.0),
-            ),
-            Container(
-              height: 140,
-              child: Container(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      category(Icon(Icons.food_bank), 'food'),
-                      category(Icon(Icons.computer), 'Computer'),
-                      category(Icon(Icons.phone), 'Mobile'),
-                      category(Icon(Icons.food_bank), 'food'),
-                      category(Icon(Icons.computer), 'Computer'),
-                      category(Icon(Icons.phone), 'Mobile'),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // Text(
+            //   'Category',
+            //   style: TextStyle(fontSize: 25.0),
+            // ),
+            // Container(
+            //   height: 140,
+            //   child: Container(
+            //     child: SingleChildScrollView(
+            //       scrollDirection: Axis.horizontal,
+            //       child: Row(
+            //         children: [
+            //           // category(Icon(Icons.food_bank), 'food'),
+            //           // category(Icon(Icons.computer), 'Computer'),
+            //           // category(Icon(Icons.phone), 'Mobile'),
+            //           // category(Icon(Icons.food_bank), 'food'),
+            //           // category(Icon(Icons.computer), 'Computer'),
+            //           // category(Icon(Icons.phone), 'Mobile'),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
             product(),
           ],
         ),
@@ -229,7 +229,9 @@ class _HomeState extends State<Home> {
           onTap: (index) {
             setState(() {
               currentindex = index;
-              if (index == 1) {
+              if (index == 0) {
+                name = "Home";
+              } else if (index == 1) {
                 name = "Favorite";
               } else if (index == 2) {
                 name = "My Order";
@@ -286,7 +288,7 @@ class _HomeState extends State<Home> {
                           Text(data[index]['Pro_name'],
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 15),
-                              overflow: TextOverflow.fade),
+                              overflow: TextOverflow.ellipsis),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -469,90 +471,107 @@ class Productview extends StatefulWidget {
 class _ProductviewState extends State<Productview> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('product'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Card(
-                  // color: Colors.red,
-                  child: Column(
-                    children: [
-                      Image(
-                        height: MediaQuery.of(context).size.width / 1.25,
-                        width: MediaQuery.of(context).size.width,
-                        image: NetworkImage(
-                            "https://kaskelimart.company/api/image/" +
-                                a[b]['image_name']),
-                        fit: BoxFit.fill,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            "Rs:" + a[b]['price'],
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 25),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  a[b]['Pro_name'],
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-                Text(
-                  "\nFeatures:\n" + a[b]['description'],
-                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25),
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.fade,
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      OutlineButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        onPressed: () {
-                          addcart();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text('This Product added to your cart')));
-                        },
-                        borderSide: BorderSide(color: Colors.black),
-                        child: Text("Add cart"),
-                      ),
-                      RaisedButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Orderconfirm()));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Confirm Your Order')));
-                        },
-                        child: Text("Buy Now"),
-                      )
-                    ])
-              ],
-            ),
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.green,
+            title: Text('product'),
           ),
-        ));
+          body: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Card(
+                    // color: Colors.red,
+                    child: Column(
+                      children: [
+                        Image(
+                          height: MediaQuery.of(context).size.width / 1.25,
+                          width: MediaQuery.of(context).size.width,
+                          image: NetworkImage(
+                              "https://kaskelimart.company/api/image/" +
+                                  a[b]['image_name']),
+                          fit: BoxFit.fill,
+                        ),
+                        IconButton(
+                            color: Colors.red,
+                            onPressed: () {
+                              favurite();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          'this product is added to your favurite')));
+                            },
+                            icon: Icon(Icons.favorite)),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              "Rs:" + a[b]['price'],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 25),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    a[b]['Pro_name'],
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
+                  Text(
+                    "\nFeatures:\n" + a[b]['description'],
+                    style:
+                        TextStyle(fontWeight: FontWeight.normal, fontSize: 25),
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.fade,
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        OutlineButton(
+                          color: Colors.green,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))),
+                          onPressed: () {
+                            addcart();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        'This Product added to your cart')));
+                          },
+                          borderSide: BorderSide(color: Colors.black),
+                          child: Text("Add cart"),
+                        ),
+                        RaisedButton(
+                          color: Colors.greenAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Orderconfirm()));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Confirm Your Order')));
+                          },
+                          child: Text("Buy Now"),
+                        )
+                      ])
+                ],
+              ),
+            ),
+          )),
+    );
   }
 
   Future addcart() async {
@@ -561,6 +580,7 @@ class _ProductviewState extends State<Productview> {
       'email': finalEmail,
       'Pro_id': a[b]['id'],
     };
+
     print("JSON DATA: $mapdata");
     http.Response response = await http.post(Uri.parse(apiurl), body: mapdata);
 
@@ -572,6 +592,24 @@ class _ProductviewState extends State<Productview> {
         print(message);
       });
     }
+  }
+}
+
+Future favurite() async {
+  var apiurl = "https://kaskelimart.company/api/addfav.php";
+  Map mapdata = {
+    'email': finalEmail,
+    'Pro_id': a[b]['id'],
+  };
+
+  print("JSON DATA: $mapdata");
+  http.Response response = await http.post(Uri.parse(apiurl), body: mapdata);
+
+  if (response.body.isNotEmpty) {
+    var data = jsonDecode(response.body)['message'];
+
+    message = data;
+    print(message);
   }
 }
 
@@ -677,6 +715,7 @@ Future<List> viewcart() async {
   var apiurl = "https://kaskelimart.company/api/cartview.php";
   Map mapdata = {
     'email': finalEmail,
+    'Pro_id': a[b]['id'],
   };
   print("JSON DATA: $mapdata");
   http.Response response = await http.post(Uri.parse(apiurl), body: mapdata);

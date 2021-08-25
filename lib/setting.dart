@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaskelimart/home.dart';
 import 'package:kaskelimart/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,10 +9,22 @@ class Setting extends StatefulWidget {
   _SettingState createState() => _SettingState();
 }
 
+class DarkTheme extends StatelessWidget {
+  const DarkTheme({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData.dark(),
+      home: Home(),
+    );
+  }
+}
+
 class _SettingState extends State<Setting> {
   bool valNotify1 = true;
-  bool valNotify2 = false;
-  bool valNotify3 = false;
+  bool valNotify2 = true;
+  bool valNotify3 = true;
 
   onChangeFunction1(bool newValue1) {
     setState(() {
@@ -78,7 +89,7 @@ class _SettingState extends State<Setting> {
               child: RaisedButton(
                 color: Colors.greenAccent,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(0))),
+                    borderRadius: BorderRadius.all(Radius.circular(15))),
                 onPressed: () async {
                   final SharedPreferences sharedPreferences =
                       await SharedPreferences.getInstance();

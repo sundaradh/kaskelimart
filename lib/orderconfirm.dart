@@ -10,6 +10,7 @@ TextEditingController _Address = TextEditingController();
 TextEditingController _email = TextEditingController(text: finalEmail);
 TextEditingController _payment =
     TextEditingController(text: "Cash on  delivary");
+final GlobalKey<FormState> _fromKey = GlobalKey<FormState>();
 
 class Orderconfirm extends StatefulWidget {
   const Orderconfirm({Key? key}) : super(key: key);
@@ -27,128 +28,133 @@ class _OrderconfirmState extends State<Orderconfirm> {
           title: Text("Order confirmation"),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 100),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  controller: _email,
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.phone,
-                      color: Colors.black,
-                    ),
-                    hintText: 'Enter',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(40)),
-                    ),
-                  ),
-                  onSaved: (String? phone) {},
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  controller: _phone,
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.phone,
-                      color: Colors.black,
-                    ),
-                    hintText: 'Enter your phone no',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(40)),
-                    ),
-                  ),
-                  validator: (String? value) {
-                    if (value!.isEmpty) {
-                      return "Please Enter Your phone no ";
-                    }
-                    if (!RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value)) {
-                      return "Prease Enter Valid  Phone";
-                    } else {
-                      return null;
-                    }
-                  },
-                  onSaved: (String? phone) {},
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  controller: _Address,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.house,
-                      color: Colors.black,
-                    ),
-                    hintText: 'Enter your Address',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(40)),
-                    ),
-                  ),
-                  validator: (String? value) {
-                    if (value!.isEmpty) {
-                      return "Please Enter Your Address ";
-                    } else {
-                      return null;
-                    }
-                  },
-                  onSaved: (String? phone) {},
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  controller: _payment,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.money,
-                      color: Colors.black,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(40)),
-                    ),
-                  ),
-                  validator: (String? value) {},
-                  onSaved: (String? phone) {},
-                ),
-              ),
-              SizedBox(
-                  height: 100,
-                  child: Center(
-                    child: RaisedButton(
-                      color: Colors.greenAccent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(40))),
-                      onPressed: () {
-                        orderconfirm();
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => Bill()));
-                      },
-                      child: Text(
-                        "Order confirm",
-                        style: TextStyle(
-                            fontSize: 16,
-                            letterSpacing: 2.2,
-                            color: Colors.black),
+          child: Form(
+            key: _fromKey,
+            child: Column(
+              children: [
+                SizedBox(height: 100),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    controller: _email,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.phone,
+                        color: Colors.black,
+                      ),
+                      hintText: 'Enter',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
                       ),
                     ),
-                  ))
-            ],
+                    onSaved: (String? phone) {},
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    controller: _phone,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.phone,
+                        color: Colors.black,
+                      ),
+                      hintText: 'Enter your phone no',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                      ),
+                    ),
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return "Please Enter Your phone no ";
+                      }
+                      if (value.length < 9) {
+                        return "Prease Enter Valid  Phone";
+                      } else {
+                        return null;
+                      }
+                    },
+                    onSaved: (String? phone) {},
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    controller: _Address,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.house,
+                        color: Colors.black,
+                      ),
+                      hintText: 'Enter your Address',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                      ),
+                    ),
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return "Please Enter Your Address ";
+                      } else {
+                        return null;
+                      }
+                    },
+                    onSaved: (String? phone) {},
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    controller: _payment,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.money,
+                        color: Colors.black,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                      ),
+                    ),
+                    validator: (String? value) {},
+                    onSaved: (String? phone) {},
+                  ),
+                ),
+                SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: RaisedButton(
+                        color: Colors.greenAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(40))),
+                        onPressed: () {
+                          if (_fromKey.currentState!.validate()) {
+                            orderconfirm();
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => Bill()));
+                          }
+                        },
+                        child: Text(
+                          "Order confirm",
+                          style: TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 2.2,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ))
+              ],
+            ),
           ),
         ),
       ),
