@@ -1,4 +1,4 @@
-package com.example.kaskelimart
+package com.sundar.kaskelimart
 
 import io.flutter.embedding.android.FlutterActivity
 

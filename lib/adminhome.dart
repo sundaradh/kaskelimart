@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kaskelimart/home.dart';
 import 'package:kaskelimart/producteditandelete.dart';
 import 'package:kaskelimart/productenter.dart';
 import 'dart:convert';
@@ -173,7 +172,10 @@ class _OrderdetailState extends State<Orderdetail> {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => Orderupdate()));
+          },
           tooltip: 'Pick Image',
           child: Icon(Icons.edit),
         ),
@@ -243,5 +245,26 @@ class _OrderdetailState extends State<Orderdetail> {
             ),
           ),
         ));
+  }
+}
+
+class Orderupdate extends StatefulWidget {
+  const Orderupdate({Key? key}) : super(key: key);
+
+  @override
+  _OrderupdateState createState() => _OrderupdateState();
+}
+
+class _OrderupdateState extends State<Orderupdate> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: Text(
+          "status:" + a[b]['Status'],
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+        ),
+      ),
+    );
   }
 }
