@@ -160,26 +160,7 @@ class _LoginState extends State<Login> {
                       child: Text("Sign Up"),
                     ),
                   ),
-                  SizedBox(
-                    height: 35,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Forget Password?"),
-                      GestureDetector(
-                        child: Text(
-                          'Click here',
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                        onTap: () {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => Signup()));
-                        },
-                      ),
-                    ],
-                  ),
+                  //
                   SizedBox(height: 20),
                 ],
               ),

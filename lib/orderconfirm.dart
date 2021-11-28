@@ -3,7 +3,6 @@ import 'package:kaskelimart/bill.dart';
 import 'package:kaskelimart/home.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:kaskelimart/login.dart';
 
 TextEditingController _phone = TextEditingController();
 TextEditingController _Address = TextEditingController();

@@ -255,16 +255,155 @@ class Orderupdate extends StatefulWidget {
   _OrderupdateState createState() => _OrderupdateState();
 }
 
+TextEditingController _id = TextEditingController(text: a[b]['id']);
+TextEditingController _name = TextEditingController(text: a[b]['Pro_name']);
+TextEditingController _email = TextEditingController(text: a[b]['email']);
+TextEditingController _status = TextEditingController(text: a[b]['Status']);
+final GlobalKey<FormState> _fromKey = GlobalKey<FormState>();
+
 class _OrderupdateState extends State<Orderupdate> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text(
-          "status:" + a[b]['Status'],
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Order Status"),
+        ),
+        body: SingleChildScrollView(
+          child: Form(
+            key: _fromKey,
+            child: Column(
+              children: [
+                SizedBox(height: 100),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    controller: _email,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.email,
+                        color: Colors.black,
+                      ),
+                      hintText: 'Enter',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                      ),
+                    ),
+                    onSaved: (String? phone) {},
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    controller: _status,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.email,
+                        color: Colors.black,
+                      ),
+                      hintText: 'Enter',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                      ),
+                    ),
+                    onSaved: (String? phone) {},
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    controller: _id,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.email,
+                        color: Colors.black,
+                      ),
+                      hintText: 'Enter',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                      ),
+                    ),
+                    onSaved: (String? phone) {},
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    controller: _name,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      icon: Icon(
+                        Icons.email,
+                        color: Colors.black,
+                      ),
+                      hintText: 'Enter',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40)),
+                      ),
+                    ),
+                    onSaved: (String? phone) {},
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: RaisedButton(
+                        color: Colors.greenAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(40))),
+                        onPressed: () {
+                          if (_fromKey.currentState!.validate()) {
+                            changestatus();
+                            Navigator.of(context).pop(MaterialPageRoute(
+                                builder: (context) => Orderdetail()));
+                          }
+                        },
+                        child: Text(
+                          "Change Status",
+                          style: TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 2.2,
+                              color: Colors.black),
+                        ),
+                      ),
+                    ))
+              ],
+            ),
+          ),
         ),
       ),
     );
+  }
+}
+
+Future changestatus() async {
+  var apiurl = "https://kaskelimart.company/api/changeorderstatus.php";
+  Map mapdata = {
+    'email': a[b]['email'],
+    'id': a[b]['id'],
+    'Status': _status.text,
+  };
+  print("JSON DATA: $mapdata");
+  http.Response response = await http.post(Uri.parse(apiurl), body: mapdata);
+
+  if (response.body.isNotEmpty) {
+    var data = jsonDecode(response.body)['message'];
+    print(data);
   }
 }
