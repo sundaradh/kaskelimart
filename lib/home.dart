@@ -117,51 +117,6 @@ class _HomeState extends State<Home> {
       SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 40),
-            Form(
-              child: Container(
-                child: Padding(
-                  padding:
-                      EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 15),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.search),
-                      hintText: 'Search',
-                      contentPadding: new EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 5.0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            // SizedBox(
-            //   height: 10,
-            // ),
-            // Text(
-            //   'Category',
-            //   style: TextStyle(fontSize: 25.0),
-            // ),
-            // Container(
-            //   height: 140,
-            //   child: Container(
-            //     child: SingleChildScrollView(
-            //       scrollDirection: Axis.horizontal,
-            //       child: Row(
-            //         children: [
-            //           // category(Icon(Icons.food_bank), 'food'),
-            //           // category(Icon(Icons.computer), 'Computer'),
-            //           // category(Icon(Icons.phone), 'Mobile'),
-            //           // category(Icon(Icons.food_bank), 'food'),
-            //           // category(Icon(Icons.computer), 'Computer'),
-            //           // category(Icon(Icons.phone), 'Mobile'),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
             product(),
           ],
         ),
